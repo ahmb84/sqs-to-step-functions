@@ -12,18 +12,7 @@ const stepFunctionsArns =
 exports.handler = async (event) => {
   try {
     for (const { body, messageAttributes } of event.Records) {
-      console.log({ body })
-      console.log({ messageAttributes })
-      const apiAggregor = messageAttributes.ApiAggregor.stringValue
-      console.log({ apiAggregor })
-      console.log(stepFunctionsArns[apiAggregor])
-
-      const params = {
-        stateMachineArn: stepFunctionsArns[apiAggregor],
-        input: body
-      }
-      await stepfunctions.startExecution(params).promise()
-
+      await callStepFunction(messageAttributes, body)
       const response = {
         statusCode: 200,
         body: `Successfully processed ${event.Records.length} messages.`
@@ -39,4 +28,13 @@ exports.handler = async (event) => {
     }
     return response
   }
+}
+
+async function callStepFunction (messageAttributes, body) {
+  const apiAggregor = messageAttributes.ApiAggregor.stringValue
+  const params = {
+    stateMachineArn: stepFunctionsArns[apiAggregor],
+    input: body
+  }
+  await stepfunctions.startExecution(params).promise()
 }
