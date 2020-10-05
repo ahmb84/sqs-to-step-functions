@@ -1,0 +1,14 @@
+{
+  "name": "lambda-sqs-to-s3",
+  "version": "1.0.0",
+  "description": "Lambda function that process an event from sqs and store it to S3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.767.0"
+  }
+}
